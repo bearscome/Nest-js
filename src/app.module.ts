@@ -8,3 +8,6 @@ import { AppService } from './app.service';
   providers: [AppService],
 })
 export class AppModule {}
+
+
+// 애플리케이션 루트 모듈

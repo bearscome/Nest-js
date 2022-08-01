@@ -6,3 +6,6 @@ export class AppService {
     return 'Hello World!';
   }
 }
+
+
+// 하나의 방법으로 기본서비스 제공

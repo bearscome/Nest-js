@@ -10,3 +10,6 @@ export class AppController {
     return this.appService.getHello();
   }
 }
+
+// 단일 경로가 있는 기본 컨트롤러
+// -> 컨트롤러는 request, response 역활
