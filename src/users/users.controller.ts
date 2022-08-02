@@ -39,6 +39,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 //    deleteUserMemo(@Param('userId) userId:string, @Param('memoId' memoId:string)) `userId: ${userId}, memoId: ${memoId}`
 
 
+// 3.1.8 하위 도메인(Sub-Domain) 라우팅
+// 서버에서 제공하는 기능을 API를 외부에 공개했다고 가정
+// 현재 회사가 사용하고 있는 도메인은 example.com이고 API 요청은 api.example.com으로 받기로 함
+// http://example.com || http//api.example.com으로 들어온 요청을 서로 다르게 처리하고 싶음
+// 또한, 하위 도메인에서 처리하지 못하는 요청은 원래 도메인에서 처리되도록 하고 싶음
+// 이런 경우 하위 도메인 라우팅 기법을 쓸수 있음
+// api-controller
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
