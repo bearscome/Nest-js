@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, BadRequestException, Header } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, BadRequestException, Header, Redirect } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,6 +15,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 // http 메서드에서는 업데이트 동작을 기술하는 메서드가 2가지 있습니다.
 // PUT은 리소스 전체를 교체할 때 쓰고, PATCH는 리소스의 일부를 업데이트 할 때 사용합니다.
 // 하지만 실제 구현시에는 이를 엄격하게 지키지 않고 PUT을 보통 사용하지만, 만약 PATCH가 사용됐다면 이같은 뜻을 가진다고 생각하면 됩니다.
+
+// 3.1.6 리디렉션
+// 응답 본문에 redirctUrl을 포함시켜 클라이언트가 스스로 패이지를 이동해도 되지만,
+// @Redirct 데코레이터를 사용하면 쉽게 구현 가능
+// 데코레이터의 두 번째 인자는 상태코드, 301 Moved Permanatly는 요청한 리소스가 헤더에 주어진 리소스로 완전히 이동했다는 뜻.
+// 상태코드를 200과 같이 다른 것으로 응답 가능
+// 하지만 301, 307, 308과 같이 Redirect로 정해진 응답코드가 아닐 경우 브라우저가 제대로 반응하지 않을 수도 있다.
 
 
 @Controller('users')
@@ -48,6 +55,8 @@ export class UsersController {
 
   @Header('Custom', 'Test Header')
   // 응답 값에 해더 커스톰 가능
+  // @Redirect('http://google.com', 301)
+  // Redirect('url', status)
   @Get(':id')
   findOne(@Param('id') id: string) {
     // 만약 요청을 처리하는 도중 에러가 발생했거나 예외를 던져야 한다면?
