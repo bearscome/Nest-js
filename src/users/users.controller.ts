@@ -45,6 +45,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 // http://example.com || http//api.example.com으로 들어온 요청을 서로 다르게 처리하고 싶음
 // 또한, 하위 도메인에서 처리하지 못하는 요청은 원래 도메인에서 처리되도록 하고 싶음
 // 이런 경우 하위 도메인 라우팅 기법을 쓸수 있음
+
+// 3.1.9 페이로드 다루기
+// Get 요청에서 서버에게 전달할 데이터를 포함할 때는 일반적으로 요청 주소에 포함시키빈다.
+// 예를 들어 유저 목록을 가져오는 요청은 GET /user?offset=0&limit=10과 같이 페이징 옵션이 포함되도록 구성할 수 있습니다.
+// offset은 데이터 목록 중 건너 뛸 개수를 의미하고, limit는 offset 이후 몇개의 데이터를 가져올지 결정합니다.
+// 이 두개의 쿼리 파라미터를 @Query DTO로 묶어 처리할 수 있습니다.
+
 // api-controller
 @Controller('users')
 export class UsersController {
@@ -52,7 +59,10 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    // return this.usersService.create(createUserDto);
+    
+    const {name, email} = createUserDto;
+    return `유저를 생성햌습니다. 이름:${name}, 이메일:${email}` 
   }
 
   @Get()
