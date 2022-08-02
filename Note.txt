@@ -1,6 +1,13 @@
+nest
+ - nest -help
+
 controller 
  - url파싱 -> 함수 리턴(서비스 로직)
  - // 컨트롤러는 URL을 파싱하여 원하는 작업을 함 -> express의 라우터 같은 개념
+ - 동적으로 url받고 해당 리퀘스트 바디를 얻고 싶으면 파라미터를 요청해야 한다.
+  -> getOne(@Param() id:string) {}
+  -> express는 return json할 때 설정을 해야하는데, nest js은 객체를 리턴하면 자동으로 json으로 변환하여 리턴함
+  -> express든 nest든 ('search')가 (':id') 보다 후에 작성되면 search를 id로 받아드림
 
 service
  - 서비스 로직
