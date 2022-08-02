@@ -23,6 +23,21 @@ import { CreateUserDto } from './dto/create-user.dto';
 // 상태코드를 200과 같이 다른 것으로 응답 가능
 // 하지만 301, 307, 308과 같이 Redirect로 정해진 응답코드가 아닐 경우 브라우저가 제대로 반응하지 않을 수도 있다.
 
+// 3.1.7 라우트 파라미터
+// 라우터 파라미터는 전 예전에 사용했음.
+// 1번 유저의 정보를 가져오기 위해 http://localhost:3000/users/1로 요청 받음.
+// 여기서 1에 해당하는 부분은 유저 아이디 인데 동적으로 구성됨
+// 즉 경로를 구성하는 파라미터가 됨, 전달받은 파라미터는 함수인자에 @Param 데코러이터로 주입 받을 수 있음
+
+// 라우터 파라미터를 받는 방법은 2개가 있음
+//  - 먼저 여러개가 전달될 경우 객체로 한번에 받는 방법
+//    -> 이 방법은 params의 타입이 any가 되어 권장되지 않음, 물론 라우트 파라미터는 타입이 항상 string이기 때문에 명시적으로 {[key:string]: string} 타입으로 지정해도 됨
+//      @Delete(':userId/memo/:memoId')
+//      deleteUserMemo(@Param() params: {[key: string]: string}) `userId: ${params.userId}, memoId: ${params.memoId}`
+//  - 라우팅 파라미터를 따로 받는 것, REST API를 구성할 때 라우팅 파라미터 개수가 많아지지 않게 설계하는 것이 좋다
+//    @Delete('userId//memo/:memoId') 
+//    deleteUserMemo(@Param('userId) userId:string, @Param('memoId' memoId:string)) `userId: ${userId}, memoId: ${memoId}`
+
 
 @Controller('users')
 export class UsersController {
@@ -63,7 +78,7 @@ export class UsersController {
   @Redirect('https://docs.nestjs.com', 302)
   getDos(@Query('version') version) {
     if(version && version === '5') {
-      // users/redirect/docs?version=5
+      // users/redirect/docs?version=5₩₩₩₩₩₩₩₩₩₩₩₩₩₩₩
       return {url:'https://docs.nestjs.com/v5/', statusCode:302}
     } 
 
