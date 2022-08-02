@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, BadRequestException, Header } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -46,11 +46,15 @@ export class UsersController {
     // ]
   }
 
+  @Header('Custom', 'Test Header')
+  // 응답 값에 해더 커스톰 가능
   @Get(':id')
   findOne(@Param('id') id: string) {
     // 만약 요청을 처리하는 도중 에러가 발생했거나 예외를 던져야 한다면?
     // 예를 들어 유저 정보 조회(GET /users/:id) 요청했는데, id는 1부터 시작하는 규직을 가지고 있다고 가정한다.
     // 만약 id가 1보다 작은 값이 전달될 경우 400 Bad Request 예외를 던져야 한다.
+
+    console.log('Header 왜 적용 안돼?')
 
     if(+id < 1) {
       throw new BadRequestException('id는 0보다 큰 값이여야 합니다')
