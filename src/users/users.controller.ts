@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, BadRequestException, Header, Redirect } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, BadRequestException, Header, Redirect, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -57,6 +57,19 @@ export class UsersController {
   // 응답 값에 해더 커스톰 가능
   // @Redirect('http://google.com', 301)
   // Redirect('url', status)
+  // 요청 처리 결과에 따라 동적으로 리다이렉트 하고자 한다면 응답을 다음 객체와 같이 리턴하면 된다. {"url":string, "statusCode":number}
+  
+  @Get('redirect/docs')
+  @Redirect('https://docs.nestjs.com', 302)
+  getDos(@Query('version') version) {
+    if(version && version === '5') {
+      // users/redirect/docs?version=5
+      return {url:'https://docs.nestjs.com/v5/', statusCode:302}
+    } 
+
+    return {url:'http://localhost:3000', statusCode:302}
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     // 만약 요청을 처리하는 도중 에러가 발생했거나 예외를 던져야 한다면?
