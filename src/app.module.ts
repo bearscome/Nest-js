@@ -1,15 +1,11 @@
 import { Get, Module } from '@nestjs/common';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/usersService';
 
 @Module({
   imports: [],
-  controllers: [UsersController],
-  providers: [UsersService]
+  controllers: [],
+  providers: []
 })
-export class AppModule {
-
-}
+export class AppModule {}
 
 
 // 애플리케이션 루트 모듈
