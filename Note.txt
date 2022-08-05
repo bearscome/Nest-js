@@ -11,3 +11,22 @@ controller
 
 service
  - 서비스 로직
+
+
+DTO
+ - Data Transfer Object
+ - 코드를 간결하게 작성가능
+ - NestJs가 쿼리 유효성 검사 가능
+
+파이프
+ - 미들웨어 
+ - app.useGlobalPipes(new ValidationPine());
+ - class-validator 
+ - class-transformer
+ - typescript로 실시간 리퀘스트 파람 검사 가능
+
+
+- nestjs/mapped-types: DTO의 타입변환 가능
+
+
+dependency injector

@@ -1,8 +1,16 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist:true,
+      forbidNonWhitelisted:true,
+      transform:true // params의 string 값을 Number로 변경해줌
+    })
+  )
   await app.listen(3000);
 }
 bootstrap();
