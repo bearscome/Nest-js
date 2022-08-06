@@ -8,7 +8,6 @@ export class MoviesService {
     private movies:Movie[] = [];
 
     getAll():Movie[] {
-        console.log('asdsadsadsadsa', this.movies)
         return this.movies;
     };
 
