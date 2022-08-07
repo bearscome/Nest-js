@@ -1,17 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
+  // beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleFixture.createNestApplication(); 
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist:true,
+        forbidNonWhitelisted:true,
+        transform:true 
+      })
+    )
+    // 테스트도 앱과 동일한 환경으로 맞춰주어야 한다.
     await app.init();
   });
 
@@ -19,6 +28,53 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect('Welcom my Movie API');
   });
+
+  describe("./movies", () => {
+    it("/movies (GET)", () => {
+      return request(app.getHttpServer()) // <- localhost:3000
+      .get("/movies")
+      .expect(200)
+      .expect([])
+    });
+
+    it("POST", () => {
+      return request(app.getHttpServer()) // <- localhost:3000
+      .post("/movies").send({title:"Test", year:2000, geners:['test']}).expect(201)
+    })
+
+    it("POST 201", () => { // 잘못된 리퀘스트
+      return request(app.getHttpServer()) // <- localhost:3000
+      .post("/movies").send({title:"Test", year:2000, geners:['test'], other:"things"}).expect(201)
+    })
+
+    it("DELETE", ()=> {
+      return request(app.getHttpServer()).delete('/movies').expect(404)
+    });
+
+    describe('/movies/:id', () => {
+      it("GET 200", () => {
+        return request(app.getHttpServer()).get("/movies/1").expect(200)
+      });
+
+      it("GET 404", () => {
+        return request(app.getHttpServer()).get("/movies/999").expect(404)
+      });
+
+      it('PATCH 200', () => {
+        // return request(app.getHttpServer()).patch('/movies/1').send({title:"UPDATE"}).expect(200)
+        return request(app.getHttpServer())
+        .patch('/movies/1')
+        .send({ title: 'Updated Test' })
+        .expect(200);
+      })
+
+      it("DELETE 404", () => {
+        return request(app.getHttpServer()).delete("/movies/1").expect(404);
+      })
+      
+    })
+  })
+
 });

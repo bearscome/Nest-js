@@ -143,4 +143,6 @@ describe('MoviesService', () => {
     })
   });
 
+  // describe: 설명하다 
+  // expect: 예상하다
 });
